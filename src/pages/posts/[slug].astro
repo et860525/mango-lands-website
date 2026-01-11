@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("posts");
+    return posts.map((post) => ({
+        params: { slug: post.slug },
+        props: { post },
+    }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+---
+
+<BaseLayout title={post.data.title}>
+  <article>
+    <h1>{post.data.title}</h1>
+
+    <div class="post-meta">
+        📅 {post.data.date.toISOString().slice(0, 10)}
+    </div>
+
+    {post.data.tags && post.data.tags.length > 0 && (
+        <div class="tags-container">
+            {post.data.tags.map(tag => (
+                <a href={`/tags/${tag}`} class="tag-link">
+                    #{tag}
+                </a>
+            ))}
+        </div>
+    )}
+
+    <hr class="post-separator" />
+
+    <div class="content">
+        <Content />
+    </div>
+</article>
+
+{headings.length > 0 && (
+    <aside class="toc-sidebar">
+        <h3>目錄</h3>
+        <ul>
+            {headings.map((heading) => (
+                <li class={`toc-level-${heading.depth}`}>
+                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+            ))}
+        </ul>
+    </aside>
+)}
+
+<style>
+    article {
+        background-color: #1f2933;
+        padding: 2rem;
+        border-radius: 12px;
+    }
+
+    .post-meta {
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        align-items: center;
+    }
+
+    .tag-icon {
+        font-size: 1.2rem;
+    }
+
+    .tag-link {
+        font-size: 1rem;
+        color: var(--muted);
+        background-color: #15171a;
+        padding: 0.25rem 0.75rem;
+        border-radius: 999px;
+        transition: all 0.2s;
+    }
+
+    .tag-link:hover {
+        color: var(--accent);
+        background-color: #374151;
+    }
+
+    .post-separator {
+        border: 0;
+        border-top: 1px solid #1f2933;
+        margin: 2.5rem 0;
+    }
+
+    .toc-sidebar {
+        display: none;
+    }
+
+    /* 只在螢幕夠寬 (大於 1280px) 時顯示側邊目錄 */
+    @media (min-width: 1280px) {
+        .toc-sidebar {
+            display: block;
+            position: fixed;
+            top: 6rem;
+            /* 計算位置：螢幕中心 + 文章寬度的一半 (512px) + 間距 */
+            left: calc(50% + 512px + 2rem);
+            width: 240px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .toc-sidebar h3 {
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--fg);
+        }
+
+        .toc-sidebar ul {
+            list-style: none;
+            padding: 0;
+            border-left: 2px solid #1f2933;
+        }
+
+        .toc-sidebar li {
+            margin: 0;
+        }
+
+        .toc-sidebar a {
+            display: block;
+            padding: 0.3rem 0 0.3rem 1rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            border-left: 2px solid transparent;
+            margin-left: -2px;
+        }
+
+        .toc-sidebar a:hover {
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+
+        /* 針對不同層級的標題做縮排 */
+        .toc-level-3 { padding-left: 1rem; }
+        .toc-level-4 { padding-left: 2rem; }
+    }
+</style>
+
+<script>
+    const preBlocks = document.querySelectorAll<HTMLElement>(".content pre");
+    preBlocks.forEach((pre) => {
+        const button = document.createElement("button");
+        button.className = "copy-btn";
+        button.textContent = "Copy";
+
+        button.addEventListener("click", () => {
+            const code = pre.querySelector<HTMLElement>("code");
+            const text = code ? code.innerText : pre.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = "Copied!";
+                setTimeout(() => button.textContent = "Copy", 2000);
+            });
+        });
+
+        pre.appendChild(button);
+    });
+  </script>
+</BaseLayout>

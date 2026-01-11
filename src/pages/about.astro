@@ -1,0 +1,179 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import avatar from "../assets/avatar.png";
+
+const headings = [
+	{ depth: 1, slug: "about-website", text: "關於網站" },
+	{ depth: 2, slug: "skills", text: "程式語言" }
+];
+
+const skills = [
+	{
+		name: "TypeScript",
+		description: "目前工作最常使用的語言，用於開發後端 API",
+	},
+	{
+		name: "Python",
+		description: "目前工作舊的專案使用，大學專題就很常與它相處",
+	},
+	{
+		name: "Rust",
+		description: "最近正在鑽研的語言，但還沒想到要用它幹麻",
+	},
+];
+---
+
+<BaseLayout title="關於我 | Mango Lands">
+	<div class="about-card">
+		<div class="about-profile">
+			<img src={avatar.src} alt="Mango Profile" class="avatar" />
+			<h1>宇釩 / YF / 芒果🥭</h1>
+			<div class="social-links">
+				<!-- GitHub Icon -->
+				<a href="https://github.com/et860525" target="_blank" aria-label="GitHub">
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+				</a>
+				<!-- Instagram Icon -->
+				<a href="https://www.instagram.com/mango70225/" target="_blank" aria-label="Instagram">
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+				</a>
+			</div>
+		</div>
+		<div class="content">
+			<p>台灣高雄人，南政大(正修科技大學)資工系畢業，目前正任職於高雄的一家小小科技公司</p>
+			<hr class="separator"/>
+			<h2 id="about-website" class="paragraph-title">關於網站</h2>
+			<div>
+				<p>這個部落格主要用來存放我經思考且整理後對於各式議題的心得，不論是嚴肅議題、時事心得或是科技相關的。</p>
+				<br>
+				<p>從社群媒體興起到今天的這個時候，我鮮少看見這些平台上有真正有實質討論，更多的都是情緒的交鋒，另一方面，我也不想把我產出的內容放在這些平台上。</p>
+			</div>
+			<h2 id="skills" class="paragraph-title">程式語言</h2>
+			<div class="skills-grid">
+				{skills.map((skill) => (
+					<div class="skill-card">
+						<h3>{skill.name}</h3>
+						<p>{skill.description}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</div>
+
+	{headings.length > 0 && (
+		<aside class="toc-sidebar">
+			<h3>目錄</h3>
+			<ul>
+				{headings.map((heading) => (
+					<li class={`toc-level-${heading.depth}`}>
+						<a href={`#${heading.slug}`}>{heading.text}</a>
+					</li>
+				))}
+			</ul>
+		</aside>
+	)}
+
+	<style>
+		.about-card {
+			background-color: #1f2933;
+			padding: 2rem;
+			border-radius: 12px;
+		}
+
+		.separator {
+			margin: 2rem 0;
+			border: 0;
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+		}
+
+		.toc-sidebar {
+			display: none;
+		}
+
+		.content p {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		/* 只在螢幕夠寬 (大於 1600px) 時顯示側邊目錄，避免遮擋內容 */
+		@media (min-width: 1600px) {
+			.toc-sidebar {
+				display: block;
+				position: fixed;
+				top: 6rem;
+				/* 計算位置：螢幕中心 + 內容寬度的一半 (512px) + 間距 */
+				left: calc(50% + 512px + 2rem);
+				width: 240px;
+				max-height: 80vh;
+				overflow-y: auto;
+			}
+
+			.toc-sidebar h3 {
+				font-size: 1rem;
+				margin-top: 0;
+				margin-bottom: 1rem;
+				color: var(--fg);
+			}
+
+			.toc-sidebar ul {
+				list-style: none;
+				padding: 0;
+				border-left: 2px solid #1f2933;
+			}
+
+			.toc-sidebar li {
+				margin: 0;
+			}
+
+			.toc-sidebar a {
+				display: block;
+				padding: 0.3rem 0 0.3rem 1rem;
+				font-size: 0.85rem;
+				color: var(--muted);
+				text-decoration: none;
+				transition: all 0.2s;
+				border-left: 2px solid transparent;
+				margin-left: -2px;
+			}
+
+			.toc-sidebar a:hover {
+				color: var(--accent);
+				border-left-color: var(--accent);
+			}
+		}
+
+		.skills-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1rem;
+			margin-top: 1rem;
+		}
+
+		@media (min-width: 768px) {
+			.skills-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		.skill-card {
+			background-color: rgba(255, 255, 255, 0.03);
+			padding: 1.5rem;
+			border-radius: 8px;
+			border: 1px solid rgba(255, 255, 255, 0.05);
+		}
+
+		.skill-card h3 {
+			margin-top: 0;
+			margin-bottom: 0.5rem;
+			color: var(--accent);
+			font-size: 1.1rem;
+		}
+
+		.skill-card p {
+			margin: 0;
+			font-size: 0.95rem;
+			color: var(--muted);
+			line-height: 1.6;
+		}
+	</style>
+</BaseLayout>

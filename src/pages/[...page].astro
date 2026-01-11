@@ -1,0 +1,105 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (async ({ paginate }) => {
+	const allPosts = await getCollection("posts");
+	allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+	const pages = paginate(allPosts, { pageSize: 5 });
+
+	return pages.map((page) => {
+		const current = page.props.page.currentPage;
+		if (current > 1) {
+			page.params.page = `page/${current}`;
+		}
+		if (page.props.page.url.prev) {
+			page.props.page.url.prev = current === 2 ? "/" : `/page/${current - 1}`;
+		}
+		if (page.props.page.url.next) {
+			page.props.page.url.next = `/page/${current + 1}`;
+		}
+		return page;
+	});
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+// 分頁邏輯：計算要顯示的頁碼
+const totalPages = page.lastPage;
+const currentPage = page.currentPage;
+const delta = 1; // 顯示當前頁面左右各幾頁
+
+let pageNumbers: (number | string)[] = [];
+
+if (totalPages > 1) {
+	// 總是顯示第一頁與最後一頁
+	const range = new Set([1, totalPages]);
+
+	// 加入當前頁面與左右鄰居
+	for (let i = currentPage - delta; i <= currentPage + delta; i++) {
+		if (i > 1 && i < totalPages) {
+			range.add(i);
+		}
+	}
+
+	const sortedRange = [...range].sort((a, b) => a - b);
+
+	let prev = 0;
+	for (const num of sortedRange) {
+		if (prev > 0) {
+			if (num - prev === 2) {
+				pageNumbers.push(prev + 1); // 如果只差一頁，直接補上該頁碼
+			} else if (num - prev > 2) {
+				pageNumbers.push("..."); // 如果差超過一頁，顯示省略號
+			}
+		}
+		pageNumbers.push(num);
+		prev = num;
+	}
+}
+---
+
+<BaseLayout title="Home">
+	<h1>Mango Lands</h1>
+	<p class="muted">芒果大天地</p>
+
+	<ul class="post-list">
+		{page.data.map((post) => (
+			<li>
+				<a href={`/posts/${post.slug}`}>
+					<span class="title">{post.data.title}</span>
+					<span class="description">{post.data.description}</span>
+					<span class="meta">{post.data.date.toISOString().slice(0, 10)}</span>
+				</a>
+			</li>
+		))}
+	</ul>
+
+	<div class="pagination">
+		<a href={page.url.prev || "#"} class={`nav-btn ${!page.url.prev ? "disabled" : ""}`}>&laquo;</a>
+
+		<div class="page-numbers">
+			{pageNumbers.map((num) => (
+				num === "..." ? (
+					<span class="dots">...</span>
+				) : (
+					<a
+						href={num === 1 ? "/" : `/page/${num}`}
+						class={`page-num ${num === currentPage ? "active" : ""}`}
+					>
+						{num}
+					</a>
+				)
+			))}
+		</div>
+
+		<a href={page.url.next || "#"} class={`nav-btn ${!page.url.next ? "disabled" : ""}`}>&raquo;</a>
+	</div>
+
+	<style>
+		h1 {
+			margin-top: 0;
+		}
+	</style>
+</BaseLayout>

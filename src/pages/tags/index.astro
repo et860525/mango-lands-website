@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+
+// 統計每個標籤的出現次數
+const tags = allPosts.flatMap((post) => post.data.tags || []);
+const tagCounts = tags.reduce((acc, tag) => {
+  acc[tag] = (acc[tag] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const uniqueTags = Object.keys(tagCounts).sort((a, b) => {
+  // 先按數量降序排列 (多的在前)
+  if (tagCounts[b] !== tagCounts[a]) {
+    return tagCounts[b] - tagCounts[a];
+  }
+  // 數量相同則按字母順序排列
+  return a.localeCompare(b);
+});
+---
+
+<BaseLayout title="Tags">
+  <h1>標籤總覽</h1>
+
+  <div class="tags-cloud">
+    {uniqueTags.length === 0 && <p class="muted">目前沒有任何標籤。</p>}
+
+    {uniqueTags.map((tag) => (
+      <a href={`/tags/${tag}`} class="tag-item">
+        <span>#{tag}</span>
+        <span class="tag-count">{tagCounts[tag]}</span>
+      </a>
+    ))}
+  </div>
+
+  <style>
+    .tags-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: #1f2933;
+      padding: 0.75rem 1.25rem;
+      border-radius: 999px;
+      color: var(--fg);
+      font-size: 1.1rem;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .tag-item:hover {
+      background-color: #374151;
+      color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .tag-count {
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 0.1rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+  </style>
+</BaseLayout>
