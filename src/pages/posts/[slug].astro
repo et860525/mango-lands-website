@@ -14,9 +14,9 @@ const { post } = Astro.props;
 const { Content, headings } = await post.render();
 ---
 
-<BaseLayout title={post.data.title}>
+<BaseLayout title={`${post.data.title} | Mango Lands`}>
   <article>
-    <h1>{post.data.title}</h1>
+    <h1 class="post-title">{post.data.title}</h1>
 
     <div class="post-meta">
         📅 {post.data.date.toISOString().slice(0, 10)}
@@ -32,7 +32,7 @@ const { Content, headings } = await post.render();
         </div>
     )}
 
-    <hr class="post-separator" />
+    <hr />
 
     <div class="content">
         <Content />
@@ -65,6 +65,11 @@ const { Content, headings } = await post.render();
         font-size: 1.1rem;
     }
 
+    .post-title {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
     .tags-container {
         display: flex;
         flex-wrap: wrap;
@@ -89,12 +94,6 @@ const { Content, headings } = await post.render();
     .tag-link:hover {
         color: var(--accent);
         background-color: #374151;
-    }
-
-    .post-separator {
-        border: 0;
-        border-top: 1px solid #1f2933;
-        margin: 2.5rem 0;
     }
 
     .toc-sidebar {
@@ -147,6 +146,11 @@ const { Content, headings } = await post.render();
             border-left-color: var(--accent);
         }
 
+        .toc-sidebar a.active {
+            color: var(--accent);
+            border-left-color: var(--accent);
+        }
+
         /* 針對不同層級的標題做縮排 */
         .toc-level-3 { padding-left: 1rem; }
         .toc-level-4 { padding-left: 2rem; }
@@ -171,5 +175,60 @@ const { Content, headings } = await post.render();
 
         pre.appendChild(button);
     });
+
+    // 目錄高亮邏輯 (TOC Highlight)
+    const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-sidebar a");
+    const headings = document.querySelectorAll<HTMLElement>(".content h1, .content h2, .content h3, .content h4");
+
+    // 1. 根據網址 Hash 更新目錄高亮
+    const updateTocHighlight = (hash?: string) => {
+        const currentHash = hash || decodeURIComponent(window.location.hash);
+        tocLinks.forEach((link) => {
+            const href = link.getAttribute("href");
+            const decodedHref = href ? decodeURIComponent(href) : "";
+            link.classList.toggle("active", decodedHref === currentHash);
+        });
+    };
+
+    // 2. 監聽 Hash 變
+    window.addEventListener("hashchange", () => updateTocHighlight());
+
+    // 3. 捲動時計算目前章節並更新網址 Hash
+    const onScroll = () => {
+        let currentId = "";
+
+        // 如果捲動到底部，直接視為最後一個章節
+        if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
+            if (headings.length > 0) {
+                currentId = headings[headings.length - 1].id;
+            }
+        } else {
+            // 否則找出離視窗頂部最近的標題
+            headings.forEach((h) => {
+                const top = h.getBoundingClientRect().top;
+                if (top < 100) { // 標題通過上方 100px 線
+                    currentId = h.id;
+                }
+            });
+        }
+
+        if (currentId) {
+            updateTocHighlight(`#${currentId}`);
+        }
+    };
+
+    // 使用 requestAnimationFrame 優化捲動效能
+    let ticking = false;
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                onScroll();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }, { passive: true });
+
+    updateTocHighlight(); // 初始化
   </script>
 </BaseLayout>

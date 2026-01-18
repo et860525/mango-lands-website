@@ -8,4 +8,11 @@ export default defineConfig({
       theme: "dracula",
     },
   },
+  vite: {
+    server: {
+      watch: {
+        usePolling: true,
+      },
+    },
+  },
 });

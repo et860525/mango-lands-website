@@ -22,7 +22,7 @@ const { posts } = Astro.props;
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
-<BaseLayout title={tag}>
+<BaseLayout title={`${tag} | Mango Lands`}>
   <h1>#{tag}</h1>
   <p class="muted">包含此標籤的文章：</p>
 

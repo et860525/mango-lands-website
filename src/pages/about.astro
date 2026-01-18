@@ -4,7 +4,8 @@ import avatar from "../assets/avatar.png";
 
 const headings = [
 	{ depth: 1, slug: "about-website", text: "關於網站" },
-	{ depth: 2, slug: "skills", text: "程式語言" }
+	{ depth: 2, slug: "skills", text: "程式語言" },
+	{ depth: 2, slug: "gear", text: "電腦配置" }
 ];
 
 const skills = [
@@ -20,6 +21,44 @@ const skills = [
 		name: "Rust",
 		description: "最近正在鑽研的語言，但還沒想到要用它幹麻",
 	},
+];
+
+const computers = [
+	{
+		name: "遊戲專用電腦 (Game PC)",
+		specs: [
+			{ label: "CPU", value: "AMD Ryzen 7 9800X3D" },
+			{ label: "GPU", value: "MSI RTX4070 SUPER 12G GAMING X SLIM" },
+			{ label: "MB", value: "MSI B850 GAMING PLUS WIFI" },
+			{ label: "RAM", value: "Kingston FURY Beast DDR5-6000 32GB" },
+			{ label: "Storage", value: "Kingston KC3000 1TB" },
+			{ label: "Storage", value: "Kingston A2000 500GB" },
+			{ label: "Storage", value: "Micron Crucial MX500 1TB"},
+			{ label: "Power", value: "LEADEX VII PRO 850W" },
+			{ label: "Case", value: "Montech Air 1000 PREMIUM" },
+			{ label: "OS", value: "Windows 11" },
+		]
+	},
+	{
+		name: "家用伺服器 (Home Server)",
+		specs: [
+			{ label: "CPU", value: "AMD Ryzen 5 3600" },
+			{ label: "GPU", value: "MSI GTX1060 GAMING X 6G" },
+			{ label: "MB", value: "MSI B550 GAMING PLUS" },
+			{ label: "RAM", value: "Kingston HyperX Fury DDR4-3600 16G" },
+			{ label: "Storage", value: "Transcend SSD220S 120GB" },
+			{ label: "Power", value: "NZXT C650 650W" },
+			{ label: "Case", value: "Aerocool Aero 500" },
+			{ label: "OS", value: "Debian 13" },
+		]
+	},
+	{
+		name: "筆記型電腦 (Notebook)",
+		specs: [
+			{ label: "Chip", value: "Apple M2"},
+			{ label: "OS", value: "macOS Sequoia"},
+		]
+	}
 ];
 ---
 
@@ -37,10 +76,14 @@ const skills = [
 				<a href="https://www.instagram.com/mango70225/" target="_blank" aria-label="Instagram">
 					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
 				</a>
+				<!-- Email Icon -->
+				<a href="mailto:et860525@gmail.com" aria-label="Email">
+					<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+				</a>
 			</div>
 		</div>
 		<div class="content">
-			<p>台灣高雄人，南政大(正修科技大學)資工系畢業，目前正任職於高雄的一家小小科技公司</p>
+			<p>台灣高雄人，南政大(正修科技大學)資工系畢業，目前正任職於高雄的一家小小科技公司。</p>
 			<hr class="separator"/>
 			<h2 id="about-website" class="paragraph-title">關於網站</h2>
 			<div>
@@ -48,12 +91,30 @@ const skills = [
 				<br>
 				<p>從社群媒體興起到今天的這個時候，我鮮少看見這些平台上有真正有實質討論，更多的都是情緒的交鋒，另一方面，我也不想把我產出的內容放在這些平台上。</p>
 			</div>
+			<hr />
 			<h2 id="skills" class="paragraph-title">程式語言</h2>
 			<div class="skills-grid">
 				{skills.map((skill) => (
 					<div class="skill-card">
 						<h3>{skill.name}</h3>
 						<p>{skill.description}</p>
+					</div>
+				))}
+			</div>
+
+			<h2 id="gear" class="paragraph-title">電腦配置</h2>
+			<div class="computers-grid">
+				{computers.map((computer) => (
+					<div class="computer-card">
+						<h3 class="computer-name">{computer.name}</h3>
+						<div class="spec-list">
+							{computer.specs.map((spec) => (
+								<div class="spec-row">
+									<span class="spec-label">{spec.label}</span>
+									<span class="spec-value">{spec.value}</span>
+								</div>
+							))}
+						</div>
 					</div>
 				))}
 			</div>
@@ -140,6 +201,11 @@ const skills = [
 				color: var(--accent);
 				border-left-color: var(--accent);
 			}
+
+			.toc-sidebar a.active {
+				color: var(--accent);
+				border-left-color: var(--accent);
+			}
 		}
 
 		.skills-grid {
@@ -175,5 +241,142 @@ const skills = [
 			color: var(--muted);
 			line-height: 1.6;
 		}
+
+		.computers-grid {
+			display: grid;
+			grid-template-columns: 1fr;
+			gap: 1.5rem;
+			margin-top: 1rem;
+		}
+
+		@media (min-width: 1024px) {
+			.computers-grid {
+				grid-template-columns: repeat(2, 1fr); /* 大螢幕時並排顯示兩欄，若有三台會自動換行 */
+			}
+		}
+
+		.computer-card {
+			background-color: rgba(255, 255, 255, 0.03);
+			border: 1px solid rgba(255, 255, 255, 0.05);
+			border-radius: 12px;
+			padding: 1.5rem;
+			display: flex;
+			flex-direction: column;
+			transition: transform 0.2s, border-color 0.2s;
+		}
+
+		.computer-card:hover {
+			transform: translateY(-3px);
+			border-color: var(--accent);
+		}
+
+		.computer-name {
+			margin-top: 0;
+			margin-bottom: 1rem;
+			font-size: 1.1rem;
+			color: var(--accent);
+			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+			padding-bottom: 0.5rem;
+		}
+
+		.spec-list {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5rem;
+		}
+
+		.spec-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			font-size: 0.9rem;
+		}
+
+		.spec-label {
+			color: var(--muted);
+			margin-right: 1rem;
+		}
+
+		.spec-value {
+			font-family: "JetBrains Mono", monospace;
+			color: var(--fg);
+			text-align: right;
+		}
 	</style>
+
+	<script>
+		// 目錄高亮邏輯 (TOC Highlight)
+		const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-sidebar a");
+		const headings = document.querySelectorAll<HTMLElement>(".content h1, .content h2, .content h3, .content h4");
+		let isClicking = false; // 新增：防止點擊時的平滑捲動觸發 scroll 事件導致跳動
+
+		// 1. 根據網址 Hash 更新目錄高亮
+		const updateTocHighlight = (hash?: string) => {
+			const currentHash = hash || decodeURIComponent(window.location.hash);
+			tocLinks.forEach((link) => {
+				const href = link.getAttribute("href");
+				const decodedHref = href ? decodeURIComponent(href) : "";
+				link.classList.toggle("active", decodedHref === currentHash);
+			});
+		};
+
+		// 2. 監聽點擊事件，暫時鎖定 scroll 偵測
+		tocLinks.forEach(link => {
+			link.addEventListener("click", () => {
+				isClicking = true;
+				// 設定一個足夠長的時間讓平滑捲動完成 (1秒通常足夠)
+				setTimeout(() => {
+					isClicking = false;
+				}, 1000);
+			});
+		});
+
+		// 3. 監聽 Hash 變更
+		window.addEventListener("hashchange", () => updateTocHighlight());
+
+		// 4. 捲動時計算目前章節並更新網址 Hash
+		const onScroll = () => {
+			if (isClicking) return; // 如果正在點擊跳轉中，不執行偵測
+
+			let currentId = "";
+
+			// 1. 先執行標準判斷：找出通過上方 100px 線的最後一個標題 (放寬判定範圍)
+			headings.forEach((h) => {
+				const top = h.getBoundingClientRect().top;
+				if (top < 100) {
+					currentId = h.id;
+				}
+			});
+
+			// 2. 處理底部邊界情況
+			if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
+				if (headings.length > 0) {
+					const lastHeading = headings[headings.length - 1];
+					const currentHeading = document.getElementById(currentId);
+
+					if (!currentHeading || currentHeading.getBoundingClientRect().top < 0) {
+						currentId = lastHeading.id;
+					}
+				}
+			}
+
+			if (currentId) {
+				updateTocHighlight(`#${currentId}`);
+			}
+		};
+
+		// 使用 requestAnimationFrame 優化捲動效能
+		let ticking = false;
+		window.addEventListener("scroll", () => {
+			if (!ticking) {
+				window.requestAnimationFrame(() => {
+					onScroll();
+					ticking = false;
+				});
+				ticking = true;
+			}
+		}, { passive: true });
+
+		updateTocHighlight(); // 初始化
+	</script>
 </BaseLayout>

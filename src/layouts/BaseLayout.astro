@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import avatar from "../assets/avatars-rmback.png";
 const { title } = Astro.props;
 ---
 
@@ -10,6 +11,7 @@ const { title } = Astro.props;
 		<title>{title}</title>
 		<meta name="viewport" content="width=device-width" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="icon" type="image/png" href={avatar.src} />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
 		<link
@@ -28,5 +30,17 @@ const { title } = Astro.props;
 		<main>
 			<slot />
 		</main>
+		<footer class="page-footer">
+			<p>&copy; {new Date().getFullYear()} Mango Lands. All rights reserved.</p>
+		</footer>
+
+		<style>
+			.page-footer {
+				text-align: center;
+				padding-bottom: 1rem;
+				color: var(--muted);
+				font-size: 0.9rem;
+			}
+		</style>
 	</body>
 </html>
