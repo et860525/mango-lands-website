@@ -41,7 +41,7 @@ mango-lands-blog/
 │   ├── assets/              # 靜態圖片、頭像 (如 avatars-rmback.png)
 │   ├── content/             # Astro 內容集合 (Content Collections)
 │   │   ├── config.ts        # 文章 Schema 定義 (zod)
-│   │   └── posts/           # Markdown 文章檔案 (*.md)
+│   │   └── posts/           # Markdown 文章檔案（含 programming/, photography/, essays/ 子目錄）
 │   ├── layouts/
 │   │   └── BaseLayout.astro # 全站基礎 Layout (包含 SEO, Anti-FOUC 腳本, Nav, Footer)
 │   ├── pages/               # 頁面與路由
@@ -51,7 +51,7 @@ mango-lands-blog/
 │   │   ├── essays.astro     # 隨筆札記專題頁 (/essays)
 │   │   ├── archives.astro   # 時間軸文章歸檔頁 (/archives)
 │   │   ├── about.astro      # 關於我頁面 (/about)
-│   │   ├── posts/[slug].astro # 單篇文章內容頁 (包含 TOC 與代碼複製按鈕)
+│   │   ├── posts/[...slug].astro # 單篇文章內容頁 (包含 TOC 與代碼複製按鈕)
 │   │   └── tags/            # 標籤總覽 (index.astro) 與單一標籤頁 ([tag].astro)
 │   └── styles/
 │       └── global.css       # 全域樣式、主題變數、排版與元件 CSS

@@ -6,6 +6,12 @@ const posts = await getCollection("posts");
 const sortedPosts = posts.sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
 );
+
+const categoryMap: Record<string, string> = {
+  programming: "程式設計",
+  photography: "攝影",
+  essays: "隨筆",
+};
 ---
 
 <BaseLayout title="所有文章 | Mango Lands">
@@ -25,6 +31,9 @@ const sortedPosts = posts.sort(
                         <a href={`/posts/${post.slug}`} class="timeline-item">
                             <span class="date">{post.data.date.toISOString().slice(5, 10)}</span>
                             <span class="title">{post.data.title}</span>
+                            <span class="category-badge">
+                                {categoryMap[post.data.category] || post.data.category}
+                            </span>
                         </a>
                     </>
                 );
@@ -75,13 +84,15 @@ const sortedPosts = posts.sort(
 
         .timeline-item {
             display: flex;
-            align-items: baseline;
+            align-items: center;
             text-decoration: none;
             color: var(--fg);
             padding: 0.5rem 0;
             margin-bottom: 0.5rem;
             position: relative;
             transition: transform 0.2s ease;
+            flex-wrap: wrap;
+            row-gap: 0.25rem;
         }
 
         .timeline-item:hover {
@@ -93,8 +104,8 @@ const sortedPosts = posts.sort(
             content: '';
             position: absolute;
             left: -2rem; /* 對齊左側邊線 */
-            top: 0.9rem;
-            transform: translateX(-50%);
+            top: 50%;
+            transform: translateY(-50%) translateX(-50%);
             width: 8px;
             height: 8px;
             background-color: var(--muted);
@@ -106,16 +117,33 @@ const sortedPosts = posts.sort(
             background-color: var(--accent);
         }
 
+        .timeline-item:hover .category-badge {
+            color: var(--fg-strong);
+            border-color: var(--border-hover);
+        }
+
         .date {
             font-family: "JetBrains Mono", monospace;
             color: var(--muted);
-            margin-right: 1.5rem;
+            margin-right: 1.25rem;
             font-size: 0.9rem;
             min-width: 50px;
         }
 
         .title {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
+            margin-right: 0.6rem;
+        }
+
+        .category-badge {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--muted);
+            background: var(--bg-subtle);
+            border: 1px solid var(--border);
+            padding: 0.15rem 0.55rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
         }
     </style>
 </BaseLayout>

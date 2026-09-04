@@ -6,6 +6,7 @@ const headings = [
   { depth: 1, slug: "about-website", text: "關於網站" },
   { depth: 2, slug: "skills", text: "程式語言" },
   { depth: 2, slug: "gear", text: "電腦配置" },
+  { depth: 2, slug: "camera", text: "相機配置" },
 ];
 
 const skills = [
@@ -61,6 +62,16 @@ const computers = [
     ],
   },
 ];
+
+const cameras = [
+  {
+    name: "相機 (Camera)",
+    specs: [
+      { label: "機身", value: "Fujifilm X-T30 III" },
+      { label: "鏡頭", value: "TTArtisan AF 35mm F1.8 II" },
+    ],
+  },
+];
 ---
 
 <BaseLayout title="關於我 | Mango Lands">
@@ -88,36 +99,77 @@ const computers = [
 			<hr class="separator"/>
 			<h2 id="about-website" class="paragraph-title">關於網站</h2>
 			<div>
-				<p>這個部落格主要用來存放我經思考且整理後對於各式議題的心得，不論是嚴肅議題、時事心得或是科技相關的。</p>
+				<p>這個網站主要用來存放我想分享的東西，不論是時事議題、攝影或是科技相關的。</p>
 				<br>
-				<p>從社群媒體興起到今天的這個時候，我鮮少看見這些平台上有真正有實質討論，更多的都是情緒的交鋒，另一方面，我也不想把我產出的內容放在這些平台上。</p>
+				<p>從社群媒體興起到今天的這個時候，我鮮少看見這些平台上有真正有實質討論，更多都是情緒的交鋒，另一方面，我也不想把我產出的內容放在這些平台上。</p>
 			</div>
-			<hr />
-			<h2 id="skills" class="paragraph-title">程式語言</h2>
-			<div class="skills-grid">
-				{skills.map((skill) => (
-					<div class="skill-card">
-						<h3>{skill.name}</h3>
-						<p>{skill.description}</p>
-					</div>
-				))}
-			</div>
+			<hr class="separator"/>
 
-			<h2 id="gear" class="paragraph-title">電腦配置</h2>
-			<div class="computers-grid">
-				{computers.map((computer) => (
-					<div class="computer-card">
-						<h3 class="computer-name">{computer.name}</h3>
-						<div class="spec-list">
-							{computer.specs.map((spec) => (
-								<div class="spec-row">
-									<span class="spec-label">{spec.label}</span>
-									<span class="spec-value">{spec.value}</span>
+			<!-- Tab 切換元件 -->
+			<div class="tabs-container">
+				<div class="tabs-nav" role="tablist" aria-label="配置與技能">
+					<button type="button" class="tab-btn active" role="tab" aria-selected="true" aria-controls="skills" id="tab-btn-skills" data-tab="skills">
+						程式語言
+					</button>
+					<button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="gear" id="tab-btn-gear" data-tab="gear">
+						電腦配置
+					</button>
+					<button type="button" class="tab-btn" role="tab" aria-selected="false" aria-controls="camera" id="tab-btn-camera" data-tab="camera">
+						相機配置
+					</button>
+				</div>
+
+				<div class="tab-panels">
+					<!-- 1. 程式語言 -->
+					<div id="skills" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-skills">
+						<div class="skills-grid">
+							{skills.map((skill) => (
+								<div class="skill-card">
+									<h3>{skill.name}</h3>
+									<p>{skill.description}</p>
 								</div>
 							))}
 						</div>
 					</div>
-				))}
+
+					<!-- 2. 電腦配置 -->
+					<div id="gear" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-gear">
+						<div class="computers-grid">
+							{computers.map((computer) => (
+								<div class="computer-card">
+									<h3 class="computer-name">{computer.name}</h3>
+									<div class="spec-list">
+										{computer.specs.map((spec) => (
+											<div class="spec-row">
+												<span class="spec-label">{spec.label}</span>
+												<span class="spec-value">{spec.value}</span>
+											</div>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+
+					<!-- 3. 相機配置 -->
+					<div id="camera" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-camera">
+						<div class="computers-grid">
+							{cameras.map((camera) => (
+								<div class="computer-card">
+									<h3 class="computer-name">{camera.name}</h3>
+									<div class="spec-list">
+										{camera.specs.map((spec) => (
+											<div class="spec-row">
+												<span class="spec-label">{spec.label}</span>
+												<span class="spec-value">{spec.value}</span>
+											</div>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -157,6 +209,71 @@ const computers = [
 		.content p {
 			margin-top: 0;
 			margin-bottom: 0;
+		}
+
+		/* Tabs 樣式 */
+		.tabs-container {
+			margin-top: 1rem;
+		}
+
+		.tabs-nav {
+			display: flex;
+			gap: 0.5rem;
+			background-color: var(--bg-subtle);
+			padding: 0.35rem;
+			border-radius: 12px;
+			border: 1px solid var(--border);
+			width: fit-content;
+			max-width: 100%;
+			overflow-x: auto;
+			margin-bottom: 1.5rem;
+		}
+
+		.tab-btn {
+			padding: 0.5rem 1.25rem;
+			font-size: 0.95rem;
+			font-weight: 500;
+			font-family: inherit;
+			color: var(--muted);
+			background: transparent;
+			border: 1px solid transparent;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+			white-space: nowrap;
+		}
+
+		.tab-btn:hover {
+			color: var(--fg);
+			background-color: var(--bg-surface-hover);
+		}
+
+		.tab-btn.active {
+			background-color: var(--bg-surface);
+			color: var(--accent);
+			border-color: var(--border);
+			box-shadow: var(--card-shadow);
+			font-weight: 600;
+		}
+
+		.tab-panel {
+			display: none;
+		}
+
+		.tab-panel.active {
+			display: block;
+			animation: tabFadeIn 0.25s ease-out forwards;
+		}
+
+		@keyframes tabFadeIn {
+			from {
+				opacity: 0;
+				transform: translateY(4px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 
 		/* 只在螢幕夠寬 (大於 1600px) 時顯示側邊目錄，避免遮擋內容 */
@@ -215,7 +332,6 @@ const computers = [
 			display: grid;
 			grid-template-columns: 1fr;
 			gap: 1rem;
-			margin-top: 1rem;
 		}
 
 		@media (min-width: 768px) {
@@ -249,12 +365,11 @@ const computers = [
 			display: grid;
 			grid-template-columns: 1fr;
 			gap: 1.5rem;
-			margin-top: 1rem;
 		}
 
 		@media (min-width: 1024px) {
 			.computers-grid {
-				grid-template-columns: repeat(2, 1fr); /* 大螢幕時並排顯示兩欄，若有三台會自動換行 */
+				grid-template-columns: repeat(2, 1fr);
 			}
 		}
 
@@ -308,14 +423,54 @@ const computers = [
 	</style>
 
 	<script>
-		// 目錄高亮邏輯 (TOC Highlight)
-		const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-sidebar a");
-		const headings = document.querySelectorAll<HTMLElement>(".content h1, .content h2, .content h3, .content h4");
-		let isClicking = false; // 新增：防止點擊時的平滑捲動觸發 scroll 事件導致跳動
+		// Tab 切換邏輯
+		const tabButtons = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
+		const tabPanels = document.querySelectorAll<HTMLElement>(".tab-panel");
 
-		// 1. 根據網址 Hash 更新目錄高亮
+		const switchTab = (tabId: string, updateHash = true) => {
+			let found = false;
+			tabButtons.forEach((btn) => {
+				const isTarget = btn.getAttribute("data-tab") === tabId;
+				btn.classList.toggle("active", isTarget);
+				btn.setAttribute("aria-selected", isTarget ? "true" : "false");
+				if (isTarget) found = true;
+			});
+
+			tabPanels.forEach((panel) => {
+				const isTarget = panel.id === tabId;
+				panel.classList.toggle("active", isTarget);
+			});
+
+			if (found && updateHash) {
+				history.replaceState(null, "", `#${tabId}`);
+				updateTocHighlight(`#${tabId}`);
+			}
+		};
+
+		tabButtons.forEach((btn) => {
+			btn.addEventListener("click", () => {
+				const tabId = btn.getAttribute("data-tab");
+				if (tabId) {
+					switchTab(tabId);
+				}
+			});
+		});
+
+		// 目錄高亮與點擊邏輯 (TOC Highlight)
+		const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc-sidebar a");
+		const headings = document.querySelectorAll<HTMLElement>(".content h1, .content h2, .content h3, .content h4, .tabs-container");
+		let isClicking = false;
+
+		// 1. 根據網址 Hash 更新目錄高亮與 Tab 狀態
 		const updateTocHighlight = (hash?: string) => {
 			const currentHash = hash || decodeURIComponent(window.location.hash);
+			const cleanHash = currentHash.replace(/^#/, "");
+
+			// 如果 hash 對應到其中一個 tab，切換該 tab
+			if (["skills", "gear", "camera"].includes(cleanHash)) {
+				switchTab(cleanHash, false);
+			}
+
 			tocLinks.forEach((link) => {
 				const href = link.getAttribute("href");
 				const decodedHref = href ? decodeURIComponent(href) : "";
@@ -323,11 +478,17 @@ const computers = [
 			});
 		};
 
-		// 2. 監聽點擊事件，暫時鎖定 scroll 偵測
-		tocLinks.forEach(link => {
+		// 2. 監聽目錄點擊事件
+		tocLinks.forEach((link) => {
 			link.addEventListener("click", () => {
+				const href = link.getAttribute("href");
+				if (href) {
+					const tabId = href.replace(/^#/, "");
+					if (["skills", "gear", "camera"].includes(tabId)) {
+						switchTab(tabId, false);
+					}
+				}
 				isClicking = true;
-				// 設定一個足夠長的時間讓平滑捲動完成 (1秒通常足夠)
 				setTimeout(() => {
 					isClicking = false;
 				}, 1000);
@@ -339,27 +500,28 @@ const computers = [
 
 		// 4. 捲動時計算目前章節並更新網址 Hash
 		const onScroll = () => {
-			if (isClicking) return; // 如果正在點擊跳轉中，不執行偵測
+			if (isClicking) return;
 
 			let currentId = "";
 
-			// 1. 先執行標準判斷：找出通過上方 100px 線的最後一個標題 (放寬判定範圍)
 			headings.forEach((h) => {
 				const top = h.getBoundingClientRect().top;
-				if (top < 100) {
-					currentId = h.id;
+				if (top < 120) {
+					if (h.classList.contains("tabs-container")) {
+						const activePanel = document.querySelector<HTMLElement>(".tab-panel.active");
+						if (activePanel) {
+							currentId = activePanel.id;
+						}
+					} else {
+						currentId = h.id;
+					}
 				}
 			});
 
-			// 2. 處理底部邊界情況
 			if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 50) {
-				if (headings.length > 0) {
-					const lastHeading = headings[headings.length - 1];
-					const currentHeading = document.getElementById(currentId);
-
-					if (!currentHeading || currentHeading.getBoundingClientRect().top < 0) {
-						currentId = lastHeading.id;
-					}
+				const activePanel = document.querySelector<HTMLElement>(".tab-panel.active");
+				if (activePanel) {
+					currentId = activePanel.id;
 				}
 			}
 
@@ -368,7 +530,6 @@ const computers = [
 			}
 		};
 
-		// 使用 requestAnimationFrame 優化捲動效能
 		let ticking = false;
 		window.addEventListener("scroll", () => {
 			if (!ticking) {
@@ -380,6 +541,9 @@ const computers = [
 			}
 		}, { passive: true });
 
-		updateTocHighlight(); // 初始化
+		// 初始化 Tab 與目錄狀態
+		if (window.location.hash) {
+			updateTocHighlight();
+		}
 	</script>
 </BaseLayout>
