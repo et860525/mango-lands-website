@@ -1,0 +1,119 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+const essayPosts = allPosts
+  .filter((post) => post.data.category === "essays")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="隨筆 | Mango Lands">
+	<div class="topic-header">
+		<h1>隨筆札記</h1>
+		<p class="topic-desc">日常觀察、生活隨筆、閱讀筆記與個人思考。</p>
+	</div>
+
+	{essayPosts.length > 0 ? (
+		<ul class="post-list">
+			{essayPosts.map((post) => (
+				<li>
+					<a href={`/posts/${post.slug}`}>
+						<span class="title">{post.data.title}</span>
+						{post.data.description && (
+							<span class="description">{post.data.description}</span>
+						)}
+						<div class="post-footer-meta">
+							<span class="meta">{post.data.date.toISOString().slice(0, 10)}</span>
+							{post.data.tags && post.data.tags.length > 0 && (
+								<div class="post-tags">
+									{post.data.tags.map((tag) => (
+										<span class="tag-badge">#{tag}</span>
+									))}
+								</div>
+							)}
+						</div>
+					</a>
+				</li>
+			))}
+		</ul>
+	) : (
+		<div class="empty-state">
+			<div class="empty-icon">📝</div>
+			<h2>隨筆文章整理中</h2>
+			<p>目前尚無隨筆文章，即將記錄更多生活想法與觀察！</p>
+		</div>
+	)}
+</BaseLayout>
+
+<style>
+	.topic-header {
+		display: flex;
+		align-items: baseline;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-bottom: 2rem;
+		border-bottom: 1px solid var(--border);
+		padding-bottom: 1rem;
+	}
+
+	.topic-header h1 {
+		margin: 0;
+		line-height: 1.2;
+	}
+
+	.topic-desc {
+		color: var(--muted);
+		font-size: 0.95rem;
+		margin: 0;
+	}
+
+	.post-footer-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 0.5rem;
+	}
+
+	.post-tags {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.tag-badge {
+		font-size: 0.8rem;
+		color: var(--muted);
+		background: var(--bg-subtle);
+		border: 1px solid var(--border);
+		padding: 0.15rem 0.45rem;
+		border-radius: 4px;
+	}
+
+	.empty-state {
+		text-align: center;
+		padding: 4rem 2rem;
+		background: var(--bg-surface);
+		border-radius: 16px;
+		border: 1px dashed var(--border);
+		box-shadow: var(--card-shadow);
+	}
+
+	.empty-icon {
+		font-size: 2.5rem;
+		margin-bottom: 1rem;
+	}
+
+	.empty-state h2 {
+		margin: 0 0 0.5rem 0;
+		font-size: 1.3rem;
+		color: var(--fg-strong);
+	}
+
+	.empty-state p {
+		color: var(--muted);
+		margin: 0;
+	}
+</style>

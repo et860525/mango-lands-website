@@ -1,6 +1,7 @@
 ---
 title: "架設網站 Ⅰ - 使用 Astro 框架"
 date: 2026-01-11
+category: programming
 tags: [website, code, astro]
 description: ""
 ---

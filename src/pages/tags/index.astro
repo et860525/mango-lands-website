@@ -50,7 +50,9 @@ const uniqueTags = Object.keys(tagCounts).sort((a, b) => {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      background-color: #1f2933;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--card-shadow);
       padding: 0.75rem 1.25rem;
       border-radius: 999px;
       color: var(--fg);
@@ -60,13 +62,15 @@ const uniqueTags = Object.keys(tagCounts).sort((a, b) => {
     }
 
     .tag-item:hover {
-      background-color: #374151;
+      background-color: var(--bg-surface-hover);
+      border-color: var(--accent);
       color: var(--accent);
       transform: translateY(-3px);
     }
 
     .tag-count {
-      background-color: rgba(0, 0, 0, 0.3);
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border);
       padding: 0.1rem 0.6rem;
       border-radius: 999px;
       font-size: 0.85rem;

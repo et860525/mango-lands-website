@@ -1,6 +1,7 @@
 ---
 title: "架設網站 ⅠⅠ - 網路設定"
 date: 2026-01-15
+category: programming
 tags: [website, code]
 description: ""
 ---

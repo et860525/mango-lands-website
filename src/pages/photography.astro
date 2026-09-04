@@ -1,0 +1,170 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+const photoPosts = allPosts
+  .filter((post) => post.data.category === "photography")
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="攝影 | Mango Lands">
+	<div class="topic-header">
+		<h1>攝影紀錄</h1>
+		<p class="topic-desc">捕捉光影、街頭瞬間與生活視野。底片、數位相機與鏡頭視界。</p>
+	</div>
+
+	{photoPosts.length > 0 ? (
+		<div class="photo-grid">
+			{photoPosts.map((post) => (
+				<a href={`/posts/${post.slug}`} class="photo-card">
+					<div class="photo-info">
+						<span class="photo-title">{post.data.title}</span>
+						<span class="photo-date">{post.data.date.toISOString().slice(0, 10)}</span>
+					</div>
+				</a>
+			))}
+		</div>
+	) : (
+		<div class="photo-showcase-placeholder">
+			<div class="camera-icon-wrapper">
+				<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+					<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+					<circle cx="12" cy="13" r="3"/>
+				</svg>
+			</div>
+			<h2>攝影專區即將上線</h2>
+			<p class="placeholder-desc">目前正在整理街頭攝影、風景與生活相片集，敬請期待未來的光影分享！</p>
+
+			<div class="planned-topics">
+				<div class="topic-pill">🎞️ 街頭攝影 (Street)</div>
+				<div class="topic-pill">🌄 風景紀實 (Landscape)</div>
+				<div class="topic-pill">📷 機身與鏡頭評測 (Gear)</div>
+			</div>
+		</div>
+	)}
+</BaseLayout>
+
+<style>
+	.topic-header {
+		display: flex;
+		align-items: baseline;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-bottom: 2rem;
+		border-bottom: 1px solid var(--border);
+		padding-bottom: 1rem;
+	}
+
+	.topic-header h1 {
+		margin: 0;
+		line-height: 1.2;
+	}
+
+	.topic-desc {
+		color: var(--muted);
+		font-size: 0.95rem;
+		margin: 0;
+	}
+
+	.photo-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+		gap: 1.5rem;
+	}
+
+	.photo-card {
+		background: var(--bg-surface);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		box-shadow: var(--card-shadow);
+		overflow: hidden;
+		transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.photo-card:hover {
+		transform: translateY(-4px);
+		background-color: var(--bg-surface-hover);
+		border-color: var(--accent);
+		box-shadow:
+			0 12px 28px -4px var(--accent-glow),
+			var(--card-shadow-hover);
+	}
+
+	.photo-info {
+		padding: 1.25rem;
+	}
+
+	.photo-title {
+		display: block;
+		font-size: 1.2rem;
+		font-weight: 600;
+		color: var(--fg-strong);
+		margin-bottom: 0.5rem;
+		transition: color 0.2s ease;
+	}
+
+	.photo-card:hover .photo-title {
+		color: var(--accent);
+	}
+
+	.photo-date {
+		font-size: 0.85rem;
+		color: var(--muted);
+		font-family: "JetBrains Mono", monospace;
+	}
+
+	/* Placeholder State */
+	.photo-showcase-placeholder {
+		text-align: center;
+		padding: 4rem 2rem;
+		background: var(--bg-surface);
+		border: 1px dashed var(--border);
+		border-radius: 16px;
+		box-shadow: var(--card-shadow);
+		margin-top: 1rem;
+	}
+
+	.camera-icon-wrapper {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		background: var(--accent-glow);
+		color: var(--accent);
+		margin-bottom: 1.5rem;
+	}
+
+	.photo-showcase-placeholder h2 {
+		margin: 0 0 0.75rem 0;
+		font-size: 1.5rem;
+		color: var(--fg-strong);
+	}
+
+	.placeholder-desc {
+		color: var(--muted);
+		max-width: 480px;
+		margin: 0 auto 2rem;
+		line-height: 1.7;
+	}
+
+	.planned-topics {
+		display: flex;
+		justify-content: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.topic-pill {
+		font-size: 0.85rem;
+		background: var(--bg-subtle);
+		border: 1px solid var(--border);
+		padding: 0.4rem 0.8rem;
+		border-radius: 9999px;
+		color: var(--fg);
+	}
+</style>

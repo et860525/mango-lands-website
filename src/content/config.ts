@@ -6,6 +6,10 @@ export const collections = {
       title: z.string(),
       description: z.string(),
       date: z.date(),
+      category: z
+        .enum(["programming", "photography", "essays"])
+        .optional()
+        .default("programming"),
       tags: z.array(z.string()).optional(),
     }),
   }),

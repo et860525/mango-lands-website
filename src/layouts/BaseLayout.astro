@@ -1,36 +1,204 @@
 ---
 import "../styles/global.css";
 import avatar from "../assets/avatars-rmback.png";
+
+// 本地化字型 (Local Self-hosted Fonts via @fontsource)
+import "@fontsource/noto-sans-tc/300.css";
+import "@fontsource/noto-sans-tc/400.css";
+import "@fontsource/noto-sans-tc/500.css";
+import "@fontsource/noto-sans-tc/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
+
 const { title } = Astro.props;
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const topicLinks = [
+  { href: "/programming", label: "程式設計", icon: "💻" },
+  { href: "/photography", label: "攝影", icon: "📷" },
+  { href: "/essays", label: "隨筆", icon: "✍️" },
+];
+
+const metaLinks = [
+  { href: "/archives", label: "所有文章" },
+  { href: "/tags", label: "標籤" },
+  { href: "/about", label: "關於我" },
+];
+
+const isTopicActive = (href: string) =>
+  currentPath === href || currentPath.startsWith(`${href}/`);
+
+const isMetaActive = (href: string) =>
+  currentPath === href || currentPath.startsWith(`${href}/`);
 ---
 
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-theme="dark">
 	<head>
 		<meta charset="utf-8" />
 		<title>{title}</title>
 		<meta name="viewport" content="width=device-width" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="icon" type="image/png" href={avatar.src} />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-		<link
-			href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap"
-			rel="stylesheet"
-		/>
+		<!-- 防閃爍 (Anti-FOUC) 主題初始化腳本 -->
+		<script is:inline>
+			(function () {
+				const savedTheme = localStorage.getItem("theme");
+				if (savedTheme) {
+					document.documentElement.setAttribute("data-theme", savedTheme);
+				} else {
+					const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+					document.documentElement.setAttribute("data-theme", prefersDark ? "dark" : "light");
+				}
+			})();
+		</script>
 	</head>
 	<body>
-		<nav>
-			<div class="nav-inner">
-				<a href="/">首頁</a>
-				<a href="/about">關於我</a>
-				<a href="/archives">所有文章</a>
-				<a href="/tags">標籤</a>
+		<header class="site-header">
+			<nav class="nav-inner" aria-label="主要導覽">
+				<div class="nav-left">
+					<a href="/" class="brand-link" aria-label="Mango Lands 首頁">
+						<img src={avatar.src} alt="Mango Lands Logo" class="brand-avatar" />
+						<span class="brand-name">Mango Lands</span>
+					</a>
+				</div>
+
+				<div class="nav-center">
+					<div class="topic-nav-pills">
+						{topicLinks.map((item) => (
+							<a
+								href={item.href}
+								class={`nav-topic-link ${isTopicActive(item.href) ? "active" : ""}`}
+							>
+								<span class="nav-topic-icon">{item.icon}</span>
+								<span>{item.label}</span>
+							</a>
+						))}
+					</div>
+				</div>
+
+				<div class="nav-right">
+					<div class="meta-nav-links">
+						{metaLinks.map((item) => (
+							<a
+								href={item.href}
+								class={`nav-meta-link ${isMetaActive(item.href) ? "active" : ""}`}
+							>
+								{item.label}
+							</a>
+						))}
+					</div>
+
+					<!-- 主題切換按鈕 (Desktop) -->
+					<button
+						type="button"
+						class="theme-toggle-btn"
+						aria-label="切換深淺色主題"
+						title="切換深淺色主題"
+					>
+						<!-- 月亮圖示 (Dark mode 顯示，點擊切換為 Light) -->
+						<svg class="moon-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+						</svg>
+						<!-- 太陽圖示 (Light mode 顯示，點擊切換為 Dark) -->
+						<svg class="sun-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="5"></circle>
+							<line x1="12" y1="1" x2="12" y2="3"></line>
+							<line x1="12" y1="21" x2="12" y2="23"></line>
+							<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+							<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+							<line x1="1" y1="12" x2="3" y2="12"></line>
+							<line x1="21" y1="12" x2="23" y2="12"></line>
+							<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+							<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+						</svg>
+					</button>
+
+					<button
+						type="button"
+						class="mobile-menu-toggle"
+						id="mobile-menu-toggle"
+						aria-label="開啟選單"
+						aria-expanded="false"
+						aria-controls="mobile-menu-dropdown"
+					>
+						<svg class="icon-open" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="3" y1="12" x2="21" y2="12"></line>
+							<line x1="3" y1="6" x2="21" y2="6"></line>
+							<line x1="3" y1="18" x2="21" y2="18"></line>
+						</svg>
+						<svg class="icon-close" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+							<line x1="18" y1="6" x2="6" y2="18"></line>
+							<line x1="6" y1="6" x2="18" y2="18"></line>
+						</svg>
+					</button>
+				</div>
+			</nav>
+
+			<div class="mobile-menu" id="mobile-menu-dropdown" hidden>
+				<div class="mobile-section">
+					<div class="mobile-section-title">主題專區</div>
+					<div class="mobile-topics">
+						{topicLinks.map((item) => (
+							<a
+								href={item.href}
+								class={`mobile-nav-link ${isTopicActive(item.href) ? "active" : ""}`}
+							>
+								<span class="nav-topic-icon">{item.icon}</span>
+								<span>{item.label}</span>
+							</a>
+						))}
+					</div>
+				</div>
+				<div class="mobile-section">
+					<div class="mobile-section-header">
+						<span class="mobile-section-title">站點資訊</span>
+						<button
+							type="button"
+							class="theme-toggle-btn"
+							aria-label="切換深淺色主題"
+							title="切換深淺色主題"
+						>
+							<svg class="moon-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+							</svg>
+							<svg class="sun-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="5"></circle>
+								<line x1="12" y1="1" x2="12" y2="3"></line>
+								<line x1="12" y1="21" x2="12" y2="23"></line>
+								<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+								<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+								<line x1="1" y1="12" x2="3" y2="12"></line>
+								<line x1="21" y1="12" x2="23" y2="12"></line>
+								<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+								<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+							</svg>
+						</button>
+					</div>
+					<div class="mobile-meta">
+						<a href="/" class={`mobile-nav-link ${currentPath === "/" ? "active" : ""}`}>
+							<span>🏠</span>
+							<span>首頁</span>
+						</a>
+						{metaLinks.map((item) => (
+							<a
+								href={item.href}
+								class={`mobile-nav-link ${isMetaActive(item.href) ? "active" : ""}`}
+							>
+								<span>{item.href === "/archives" ? "📁" : item.href === "/tags" ? "🏷️" : "👤"}</span>
+								<span>{item.label}</span>
+							</a>
+						))}
+					</div>
+				</div>
 			</div>
-		</nav>
+		</header>
+
 		<main>
 			<slot />
 		</main>
+
 		<footer class="page-footer">
 			<p>&copy; {new Date().getFullYear()} Mango Lands. All rights reserved.</p>
 		</footer>
@@ -38,10 +206,39 @@ const { title } = Astro.props;
 		<style>
 			.page-footer {
 				text-align: center;
-				padding-bottom: 1rem;
+				padding-bottom: 2rem;
 				color: var(--muted);
 				font-size: 0.9rem;
 			}
 		</style>
+
+		<script>
+			// 行動版選單開關
+			const toggleBtn = document.getElementById("mobile-menu-toggle");
+			const mobileMenu = document.getElementById("mobile-menu-dropdown");
+
+			if (toggleBtn && mobileMenu) {
+				toggleBtn.addEventListener("click", () => {
+					const isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
+					toggleBtn.setAttribute("aria-expanded", String(!isExpanded));
+					if (isExpanded) {
+						mobileMenu.setAttribute("hidden", "");
+					} else {
+						mobileMenu.removeAttribute("hidden");
+					}
+				});
+			}
+
+			// 主題切換按鈕事件綁定
+			const themeButtons = document.querySelectorAll(".theme-toggle-btn");
+			themeButtons.forEach((btn) => {
+				btn.addEventListener("click", () => {
+					const currentTheme = document.documentElement.getAttribute("data-theme") || "dark";
+					const nextTheme = currentTheme === "dark" ? "light" : "dark";
+					document.documentElement.setAttribute("data-theme", nextTheme);
+					localStorage.setItem("theme", nextTheme);
+				});
+			});
+		</script>
 	</body>
 </html>

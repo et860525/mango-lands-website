@@ -47,7 +47,7 @@ const sortedPosts = posts.sort(
         .timeline {
             position: relative;
             padding-left: 2rem;
-            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            border-left: 2px solid var(--border);
             margin-left: 1rem;
         }
 
@@ -70,7 +70,7 @@ const sortedPosts = posts.sort(
             height: 14px;
             background-color: var(--accent);
             border-radius: 50%;
-            border: 4px solid #15171a; /* 假設背景色，製造間隔感 */
+            border: 4px solid var(--bg); /* 與背景同色，製造間隔感 */
         }
 
         .timeline-item {
