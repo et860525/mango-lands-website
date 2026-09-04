@@ -1,0 +1,346 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+
+// 依日期降序排序所有文章
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+// 取得各分類最新最多 3 篇文章
+const programmingPosts = sortedPosts
+  .filter((post) => post.data.category === "programming")
+  .slice(0, 3);
+
+const photoPosts = sortedPosts
+  .filter((post) => post.data.category === "photography")
+  .slice(0, 3);
+
+const essayPosts = sortedPosts
+  .filter((post) => post.data.category === "essays")
+  .slice(0, 3);
+---
+
+<BaseLayout title="芒果大天地 | Mango Lands">
+	<section class="hero-section">
+		<h1>Mango Lands</h1>
+		<p class="hero-tagline">
+			歡迎來到芒果大天地！
+		</p>
+	</section>
+
+	<div class="topics-container">
+		<!-- 1. 程式設計 (Programming) -->
+		<section class="topic-section">
+			<div class="section-header">
+				<div class="section-title-group">
+					<span class="section-icon">💻</span>
+					<h2>程式設計</h2>
+				</div>
+				<a href="/programming" class="view-all-link">
+					<span>查看全部</span>
+					<span>&rarr;</span>
+				</a>
+			</div>
+
+			{programmingPosts.length > 0 ? (
+				<ul class="post-list">
+					{programmingPosts.map((post) => (
+						<li>
+							<a href={`/posts/${post.slug}`}>
+								<span class="title">{post.data.title}</span>
+								{post.data.description && (
+									<span class="description">{post.data.description}</span>
+								)}
+								<div class="post-footer-meta">
+									<span class="meta">{post.data.date.toISOString().slice(0, 10)}</span>
+									{post.data.tags && post.data.tags.length > 0 && (
+										<div class="post-tags">
+											{post.data.tags.map((tag) => (
+												<span class="tag-badge">#{tag}</span>
+											))}
+										</div>
+									)}
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<div class="empty-state-mini">
+					<p>目前尚無程式設計文章，敬請期待！</p>
+				</div>
+			)}
+		</section>
+
+		<!-- 2. 攝影 (Photography) -->
+		<section class="topic-section">
+			<div class="section-header">
+				<div class="section-title-group">
+					<span class="section-icon">📷</span>
+					<h2>攝影紀錄</h2>
+				</div>
+				<a href="/photography" class="view-all-link">
+					<span>查看全部</span>
+					<span>&rarr;</span>
+				</a>
+			</div>
+
+			{photoPosts.length > 0 ? (
+				<div class="photo-grid-mini">
+					{photoPosts.map((post) => (
+						<a href={`/posts/${post.slug}`} class="photo-card">
+							<div class="photo-info">
+								<span class="photo-title">{post.data.title}</span>
+								<span class="photo-date">{post.data.date.toISOString().slice(0, 10)}</span>
+							</div>
+						</a>
+					))}
+				</div>
+			) : (
+				<div class="photo-placeholder-mini">
+					<p>📷 攝影專區籌備中，歡迎前往專區查看即將推出的相片主題！</p>
+				</div>
+			)}
+		</section>
+
+		<!-- 3. 隨筆 (Essays) -->
+		<section class="topic-section">
+			<div class="section-header">
+				<div class="section-title-group">
+					<span class="section-icon">✍️</span>
+					<h2>隨筆札記</h2>
+				</div>
+				<a href="/essays" class="view-all-link">
+					<span>查看全部</span>
+					<span>&rarr;</span>
+				</a>
+			</div>
+
+			{essayPosts.length > 0 ? (
+				<ul class="post-list">
+					{essayPosts.map((post) => (
+						<li>
+							<a href={`/posts/${post.slug}`}>
+								<span class="title">{post.data.title}</span>
+								{post.data.description && (
+									<span class="description">{post.data.description}</span>
+								)}
+								<div class="post-footer-meta">
+									<span class="meta">{post.data.date.toISOString().slice(0, 10)}</span>
+									{post.data.tags && post.data.tags.length > 0 && (
+										<div class="post-tags">
+											{post.data.tags.map((tag) => (
+												<span class="tag-badge">#{tag}</span>
+											))}
+										</div>
+									)}
+								</div>
+							</a>
+						</li>
+					))}
+				</ul>
+			) : (
+				<div class="empty-state-mini">
+					<p>📝 隨筆文章整理中，即將分享更多生活想法與觀察！</p>
+				</div>
+			)}
+		</section>
+	</div>
+</BaseLayout>
+
+<style>
+	.hero-section {
+		margin-bottom: 3.5rem;
+		border-bottom: 1px solid var(--border);
+		padding-bottom: 2rem;
+	}
+
+	.hero-section h1 {
+		font-size: 2.25rem;
+		margin: 0 0 0.5rem 0;
+		color: var(--fg-strong);
+	}
+
+	.hero-tagline {
+		color: var(--muted);
+		font-size: 1.05rem;
+		margin: 0;
+		max-width: 680px;
+		line-height: 1.8;
+	}
+
+	.topics-container {
+		display: flex;
+		flex-direction: column;
+		gap: 3.5rem;
+	}
+
+	.topic-section {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.section-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 1.5rem;
+		padding-bottom: 0.75rem;
+		border-bottom: 1.5px solid var(--border);
+	}
+
+	.section-title-group {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+	}
+
+	.section-icon {
+		font-size: 1.3rem;
+	}
+
+	.section-header h2 {
+		font-size: 1.35rem;
+		margin: 0;
+		color: var(--fg-strong);
+	}
+
+	.view-all-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--accent);
+		transition: transform 0.2s ease;
+	}
+
+	.view-all-link:hover {
+		transform: translateX(4px);
+	}
+
+	.post-footer-meta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-top: 0.5rem;
+	}
+
+	.post-tags {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.tag-badge {
+		font-size: 0.8rem;
+		color: var(--muted);
+		background: var(--bg-subtle);
+		border: 1px solid var(--border);
+		padding: 0.2rem 0.55rem;
+		border-radius: 6px;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+
+	.post-list li:hover .tag-badge {
+		color: var(--fg);
+		border-color: var(--border-hover);
+	}
+
+	/* Mini Empty State */
+	.empty-state-mini {
+		padding: 2.5rem 1.5rem;
+		background: var(--bg-surface);
+		border: 1px dashed var(--border);
+		border-radius: 12px;
+		text-align: center;
+		color: var(--muted);
+	}
+
+	.empty-state-mini p {
+		margin: 0;
+		font-size: 0.95rem;
+	}
+
+	/* Mini Photo Grid */
+	.photo-grid-mini {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.photo-card {
+		background: var(--bg-surface);
+		border: 1px solid var(--border);
+		border-radius: 12px;
+		box-shadow: var(--card-shadow);
+		overflow: hidden;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s,
+			border-color 0.2s;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.photo-card:hover {
+		transform: translateY(-4px);
+		background-color: var(--bg-surface-hover);
+		border-color: var(--accent);
+		box-shadow:
+			0 12px 28px -4px var(--accent-glow),
+			var(--card-shadow-hover);
+	}
+
+	.photo-info {
+		padding: 1.25rem;
+	}
+
+	.photo-title {
+		display: block;
+		font-size: 1.15rem;
+		font-weight: 600;
+		color: var(--fg-strong);
+		margin-bottom: 0.5rem;
+		transition: color 0.2s ease;
+	}
+
+	.photo-card:hover .photo-title {
+		color: var(--accent);
+	}
+
+	.photo-date {
+		font-size: 0.85rem;
+		color: var(--muted);
+		font-family: "JetBrains Mono", monospace;
+	}
+
+	.photo-placeholder-mini {
+		padding: 2.5rem 1.5rem;
+		background: var(--bg-surface);
+		border: 1px dashed var(--border);
+		border-radius: 12px;
+		text-align: center;
+		color: var(--muted);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.75rem;
+	}
+
+	.photo-placeholder-mini p {
+		margin: 0;
+	}
+
+	.placeholder-link {
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--accent);
+	}
+</style>

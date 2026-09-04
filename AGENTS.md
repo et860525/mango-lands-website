@@ -45,7 +45,7 @@ mango-lands-blog/
 │   ├── layouts/
 │   │   └── BaseLayout.astro # 全站基礎 Layout (包含 SEO, Anti-FOUC 腳本, Nav, Footer)
 │   ├── pages/               # 頁面與路由
-│   │   ├── [...page].astro  # 首頁與分頁文章清單 (/, /page/2)
+│   │   ├── index.astro      # 首頁（展示三大核心主題最新 3 篇文章）(/)
 │   │   ├── programming.astro# 程式設計專題頁 (/programming)
 │   │   ├── photography.astro# 攝影專題頁 (/photography)
 │   │   ├── essays.astro     # 隨筆札記專題頁 (/essays)

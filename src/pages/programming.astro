@@ -11,7 +11,7 @@ const programmingPosts = allPosts
 <BaseLayout title="程式設計 | Mango Lands">
 	<div class="topic-header">
 		<h1>程式設計</h1>
-		<p class="topic-desc">軟體開發、系統架構、前端與後端技術筆記與踩坑紀錄。</p>
+		<p class="topic-desc">軟體開發、系統架構技術筆記與踩坑紀錄。</p>
 	</div>
 
 	{programmingPosts.length > 0 ? (
@@ -86,8 +86,15 @@ const programmingPosts = allPosts
 		color: var(--muted);
 		background: var(--bg-subtle);
 		border: 1px solid var(--border);
-		padding: 0.15rem 0.45rem;
-		border-radius: 4px;
+		padding: 0.2rem 0.55rem;
+		border-radius: 6px;
+		font-weight: 500;
+		transition: all 0.2s ease;
+	}
+
+	.post-list li:hover .tag-badge {
+		color: var(--fg);
+		border-color: var(--border-hover);
 	}
 
 	.empty-state {
