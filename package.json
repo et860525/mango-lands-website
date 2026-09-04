@@ -5,10 +5,14 @@
   "scripts": {
     "dev": "bun run --bun astro dev",
     "build": "bun run --bun astro build",
+    "deploy": "bun run build && rsync -av --delete ./dist/ ../nginx/website/",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.7"
+    "astro": "^5.18.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.12"
   }
 }
