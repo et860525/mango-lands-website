@@ -3,62 +3,63 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import avatar from "../assets/avatar.png";
 
 const headings = [
-	{ depth: 1, slug: "about-website", text: "關於網站" },
-	{ depth: 2, slug: "skills", text: "程式語言" },
-	{ depth: 2, slug: "gear", text: "電腦配置" }
+  { depth: 1, slug: "about-website", text: "關於網站" },
+  { depth: 2, slug: "skills", text: "程式語言" },
+  { depth: 2, slug: "gear", text: "電腦配置" },
 ];
 
 const skills = [
-	{
-		name: "TypeScript",
-		description: "目前工作最常使用的語言，用於開發後端 API",
-	},
-	{
-		name: "Python",
-		description: "目前工作舊的專案使用，大學專題就很常與它相處",
-	},
-	{
-		name: "Rust",
-		description: "最近正在鑽研的語言，但還沒想到要用它幹麻",
-	},
+  {
+    name: "TypeScript",
+    description: "目前工作最常使用的語言，用於開發後端 API",
+  },
+  {
+    name: "Python",
+    description: "目前工作舊的專案使用，大學專題就很常與它相處",
+  },
+  {
+    name: "Rust",
+    description: "最近正在鑽研的語言，但還沒想到要用它幹麻",
+  },
 ];
 
 const computers = [
-	{
-		name: "遊戲專用電腦 (Game PC)",
-		specs: [
-			{ label: "CPU", value: "AMD Ryzen 7 9800X3D" },
-			{ label: "GPU", value: "MSI RTX4070 SUPER 12G GAMING X SLIM" },
-			{ label: "MB", value: "MSI B850 GAMING PLUS WIFI" },
-			{ label: "RAM", value: "Kingston FURY Beast DDR5-6000 32GB" },
-			{ label: "Storage", value: "Kingston KC3000 1TB" },
-			{ label: "Storage", value: "Kingston A2000 500GB" },
-			{ label: "Storage", value: "Micron Crucial MX500 1TB"},
-			{ label: "Power", value: "LEADEX VII PRO 850W" },
-			{ label: "Case", value: "Montech Air 1000 PREMIUM" },
-			{ label: "OS", value: "Windows 11" },
-		]
-	},
-	{
-		name: "家用伺服器 (Home Server)",
-		specs: [
-			{ label: "CPU", value: "AMD Ryzen 5 3600" },
-			{ label: "GPU", value: "MSI GTX1060 GAMING X 6G" },
-			{ label: "MB", value: "MSI B550 GAMING PLUS" },
-			{ label: "RAM", value: "Kingston HyperX Fury DDR4-3600 32G" },
-			{ label: "Storage", value: "Transcend SSD220S 120GB" },
-			{ label: "Power", value: "NZXT C650 650W" },
-			{ label: "Case", value: "Aerocool Aero 500" },
-			{ label: "OS", value: "Arch Linux" },
-		]
-	},
-	{
-		name: "筆記型電腦 (Notebook)",
-		specs: [
-			{ label: "Chip", value: "Apple M2"},
-			{ label: "OS", value: "macOS Sequoia"},
-		]
-	}
+  {
+    name: "遊戲專用電腦 (Game PC)",
+    specs: [
+      { label: "CPU", value: "AMD Ryzen 7 9800X3D" },
+      { label: "GPU", value: "MSI RTX4070 SUPER 12G GAMING X SLIM" },
+      { label: "MB", value: "MSI B850 GAMING PLUS WIFI" },
+      { label: "RAM", value: "Kingston FURY Beast DDR5-6000 32GB" },
+      { label: "Storage", value: "Kingston KC3000 1TB" },
+      { label: "Storage", value: "Kingston A2000 500GB" },
+      { label: "Storage", value: "Micron Crucial MX500 1TB" },
+      { label: "Power", value: "LEADEX VII PRO 850W" },
+      { label: "Case", value: "Montech Air 1000 PREMIUM" },
+      { label: "OS", value: "Windows 11" },
+    ],
+  },
+  {
+    name: "家用伺服器 (Home Server)",
+    specs: [
+      { label: "CPU", value: "AMD Ryzen 5 3600" },
+      { label: "GPU", value: "MSI GTX1060 GAMING X 6G" },
+      { label: "MB", value: "MSI B550 GAMING PLUS" },
+      { label: "RAM", value: "Kingston HyperX Fury DDR4-3600 32G" },
+      { label: "Storage", value: "Transcend SSD220S 120GB" },
+      { label: "Power", value: "NZXT C650 650W" },
+      { label: "Case", value: "Aerocool Aero 500" },
+      { label: "OS", value: "Arch Linux" },
+    ],
+  },
+  {
+    name: "筆記型電腦 (Notebook)",
+    specs: [
+      { label: "Chip", value: "Apple M5" },
+      { label: "RAM", value: "24GB" },
+      { label: "OS", value: "macOS Tahoe" },
+    ],
+  },
 ];
 ---
 

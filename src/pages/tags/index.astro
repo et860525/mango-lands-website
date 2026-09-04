@@ -6,10 +6,13 @@ const allPosts = await getCollection("posts");
 
 // 統計每個標籤的出現次數
 const tags = allPosts.flatMap((post) => post.data.tags || []);
-const tagCounts = tags.reduce((acc, tag) => {
-  acc[tag] = (acc[tag] || 0) + 1;
-  return acc;
-}, {} as Record<string, number>);
+const tagCounts = tags.reduce(
+  (acc, tag) => {
+    acc[tag] = (acc[tag] || 0) + 1;
+    return acc;
+  },
+  {} as Record<string, number>,
+);
 
 const uniqueTags = Object.keys(tagCounts).sort((a, b) => {
   // 先按數量降序排列 (多的在前)

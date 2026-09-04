@@ -7,7 +7,10 @@
     "build": "bun run --bun astro build",
     "deploy": "bun run build && rsync -av --delete ./dist/ ../nginx/website/",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint --write ."
   },
   "dependencies": {
     "astro": "^5.18.2"
